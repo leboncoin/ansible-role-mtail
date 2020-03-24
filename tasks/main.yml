@@ -6,7 +6,7 @@
     mode: '0755'
 
 - name: set fact binary name
-  set_facts:
+  set_fact:
     mtail_binary_name: "mtail_{{ mtail_version }}_{{ ansible_system | lower }}_amd64"
 
 - name: Put mtail executable
