@@ -12,17 +12,14 @@ Only systemd-based systems are supported for now. Pull-requests are welcome.
 Role Variables
 --------------
 
-### mtail_version
-
-mtail release version, defaults to newest version in the [page](https://github.com/google/mtail/releases).
-
-### mtail_args
-
-Raw argument to `mtail` program, defaults to `-progs /usr/local/etc/mtail -logs /var/log/syslog`
-
-There is a default mtail program directory, which contains a simple log line counter for `NetworkManager`.
-
-When you set this value, don't forget setting progs argument.
+| Variable | Description | Type | Default | Mandatory |
+|----------|-------------|------|---------|-----------|
+| mtail_version | mtail release version, defaults to newest version in the [page](https://github.com/google/mtail/releases). | string | v3.0.0-rc35 | true |
+| mtail_args | Raw argument to `mtail` program | string |  | false |
+| mtail_logs_list | Logs argument to `mtail` program | list | ['/var/log/syslog'] | true |
+| mtail_progs_path | Progs argument to `mtail` program | string | /etc/mtail.d | true |
+| mtail_download_path | Path to save binary | string | /opt/mtail | true |
+| mtail_binary_path | Path to link executable binary | string | /usr/local/bin/ | true |
 
 
 Dependencies
@@ -37,8 +34,10 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-      - role: hkwi.mtail
-        mtail_version: v3.0.0-rc26
+      - role: leboncoin.mtail
+        mtail_version: v3.0.0-rc35
+
+Add mtail files like [examples](https://github.com/google/mtail/tree/master/examples) in `files` directory in side of your playbook
 
 License
 -------
