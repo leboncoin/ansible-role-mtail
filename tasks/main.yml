@@ -11,7 +11,7 @@
 
 - name: Put mtail executable
   uri:
-    url: "https://github.com/google/mtail/releases/download/{{ mtail_binary_name }}"
+    url: "https://github.com/google/mtail/releases/download/{{ mtail_version }}/{{ mtail_binary_name }}"
     dest: "{{ mtail_download_path }}/{{ mtail_binary_name }}"
     creates: "{{ mtail_download_path }}/{{ mtail_binary_name }}"
     status_code:
