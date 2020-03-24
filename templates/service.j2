@@ -3,7 +3,7 @@ Description=mtail
 
 [Service]
 EnvironmentFile=/etc/default/mtail
-ExecStart=/usr/local/bin/mtail -logtostderr -progs /usr/local/etc/mtail $ARGS
+ExecStart=/usr/local/bin/mtail -logtostderr -progs $PROGS $LOGS $ARGS
 
 Restart=always
 OOMScoreAdjust=1000

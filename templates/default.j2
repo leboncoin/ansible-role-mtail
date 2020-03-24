@@ -1,1 +1,3 @@
 ARGS={{ mtail_args }}
+LOGS={{ ('-logs ' ~ (mtail_logs_list | map('quote') | join(' -logs '))) if mtail_logs_list else "" }}
+PROGS={{ mtail_progs_path }}
