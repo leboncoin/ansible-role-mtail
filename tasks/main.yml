@@ -55,3 +55,8 @@
     daemon_reload: yes
     enabled: yes
     state: started
+
+- name: Copy mtail progs
+  copy:
+    src: mtail/
+    dest: "{{ mtail_progs_path }}"
