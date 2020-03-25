@@ -1,9 +1,19 @@
 ---
+- name: Create download path
+  file:
+    path: "{{ mtail_download_path }}"
+    state: directory
+    mode: '0755'
+
+- name: set fact binary name
+  set_fact:
+    mtail_binary_name: "mtail_{{ mtail_version }}_{{ ansible_system | lower }}_amd64"
+
 - name: Put mtail executable
   uri:
-    url: "https://github.com/google/mtail/releases/download/{{ mtail_version }}/mtail_{{ mtail_version }}_{{ ansible_system | lower }}_amd64"
-    dest: /usr/local/bin/mtail
-    creates: /usr/local/bin/mtail
+    url: "https://github.com/google/mtail/releases/download/{{ mtail_version }}/{{ mtail_binary_name }}"
+    dest: "{{ mtail_download_path }}/{{ mtail_binary_name }}"
+    creates: "{{ mtail_download_path }}/{{ mtail_binary_name }}"
     status_code:
     - 200
     - 304
@@ -12,9 +22,17 @@
 
 - name: chmod +x
   file:
-    path: /usr/local/bin/mtail
+    path: "{{ mtail_download_path }}/{{ mtail_binary_name }}"
     mode: u+x
   when: rc.changed
+
+- name: Create a symbolic link
+  file:
+    src: "{{ mtail_download_path }}/{{ mtail_binary_name }}"
+    dest: "{{ mtail_binary_path }}/mtail"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: link
 
 - name: Put systemd mtail.service unit
   template:
@@ -37,3 +55,8 @@
     daemon_reload: yes
     enabled: yes
     state: started
+
+- name: Copy mtail progs
+  copy:
+    src: mtail/
+    dest: "{{ mtail_progs_path }}"
